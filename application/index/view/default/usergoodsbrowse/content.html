@@ -1,0 +1,128 @@
+{{if !empty($browses)}}
+    {{foreach $browses as $v}}
+        <li {{php}}if(IsMobile()) {echo 'style="width: 100%;!important;"';}{{/php}} class="am-animation-scale-up">
+            <div style="margin: 5px;
+    border: 1px #e8e8e8 solid;
+    overflow: hidden;
+    position: relative;
+    cursor: pointer;" class="items am-padding-bottom-xs">
+                <a href="{{$v.goods_url|default=''}}" style="text-decoration:none;" target="_blank" class="am-block">
+                    <!-- 搜索页面商品信息顶部钩子 -->
+                    {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
+                        <div class="plugins-tag">
+                            <span>plugins_view_search_goods_inside_top</span>
+                        </div>
+                    {{/if}}
+                    {{php}}
+                        $hook_name = 'plugins_view_search_goods_inside_top';
+                        $hook_data = Hook::listen($hook_name, ['hook_name'=>$hook_name, 'is_backend'=>false, 'goods_id'=>$v['id'], 'goods'=>$v]);
+                        if(!empty($hook_data) && is_array($hook_data))
+                        {
+                            foreach($hook_data as $hook)
+                            {
+                                if(is_string($hook) || is_int($hook))
+                                {
+                                    echo htmlspecialchars_decode($hook);
+                                }
+                            }
+                        }
+                    {{/php}}
+
+                    <!--<img src="{{$v.images}}" alt="{{$v.title}}" class="goods-images" />-->
+                    <div class="am-padding-xs">
+                        <p class="am-text-truncate-2 goods-title" style="color:#333" title="{{$v.title}}">{{$v.title}}</p>
+                    </div>
+
+
+                <!-- 搜索页面商品信息售价顶部钩子 -->
+                {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
+                    <div class="plugins-tag">
+                        <span>plugins_view_search_goods_inside_price_top</span>
+                    </div>
+                {{/if}}
+                {{php}}
+                    $hook_name = 'plugins_view_search_goods_inside_price_top';
+                    $hook_data = Hook::listen($hook_name, ['hook_name'=>$hook_name, 'is_backend'=>false, 'goods_id'=>$v['id'], 'goods'=>$v]);
+                    if(!empty($hook_data) && is_array($hook_data))
+                    {
+                        foreach($hook_data as $hook)
+                        {
+                            if(is_string($hook) || is_int($hook))
+                            {
+                                echo htmlspecialchars_decode($hook);
+                            }
+                        }
+                    }
+                {{/php}}
+                    <!---三级分类---->
+                    <p class="price am-text-truncate"  >
+                             <span style="color: red">
+                                 【分类】
+                             </span>&nbsp;
+                        <span style="color: #c3c3c2">
+                            {{$v.cates_router|default=''}}
+                         </span>
+                    </p>
+                    <!--支持担保--->
+                    <p class="price am-padding-horizontal-xs am-text-truncate">
+                         <span style="color: red">
+                             【担保方1】
+                         </span>&nbsp;
+                        {{if $v.assureStyles}}
+                        {{foreach $v.assureStyles as $k1=>$v1}}
+                        <span style="color: #c3c3c2">
+                              {{$v1.assure_style_name}}
+                        </span>
+                        {{/foreach}}
+                        {{else/}}
+                        <span style="color: #c3c3c2">不受担保</span>
+                        {{/if}}
+                    </p>
+
+
+                <p class="price am-padding-horizontal-xs am-text-truncate">
+                    {{if !empty($v['goods_type']) && $v['goods_type'] >0 }}
+                    <span style="color: {{:lang('common_goods_type_list')[$v['goods_type']]['color']  }}">
+
+                            【{{:lang('common_goods_type_list')[$v['goods_type']]['name']  }}】
+
+                    </span>&nbsp;
+                    {{/if}}
+                    <span style="color: red">担保金额:{{$price_symbol}}{{$v.deposit}}</span>&nbsp;
+                    {{if $v.user_telegram   }}
+
+                    {{if !empty($user)}}
+                    <span style="color: #c3c3c2">{{$v.user_telegram}}发布</span>
+                    {{else /}}
+                    <span style="color: #c3c3c2">{{$v.user_telegram|substr_cut}}发布</span>
+                    {{/if}}
+                    {{/if}}
+                </p>
+
+
+                </a>
+
+                <!-- 搜索页面商品信息底部钩子 -->
+                {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
+                    <div class="plugins-tag">
+                        <span>plugins_view_search_goods_inside_bottom</span>
+                    </div>
+                {{/if}}
+                {{php}}
+                    $hook_name = 'plugins_view_search_goods_inside_bottom';
+                    $hook_data = Hook::listen($hook_name, ['hook_name'=>$hook_name, 'is_backend'=>false, 'goods_id'=>$v['id'], 'goods'=>$v]);
+                    if(!empty($hook_data) && is_array($hook_data))
+                    {
+                        foreach($hook_data as $hook)
+                        {
+                            if(is_string($hook) || is_int($hook))
+                            {
+                                echo htmlspecialchars_decode($hook);
+                            }
+                        }
+                    }
+                {{/php}}
+            </div>
+        </li>
+    {{/foreach}}
+{{/if}}

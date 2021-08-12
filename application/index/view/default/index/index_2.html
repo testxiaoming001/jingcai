@@ -1,0 +1,390 @@
+{{include file="public/header" /}}
+
+<!-- nav start -->
+{{include file="public/nav" /}}
+<!-- nav end -->
+
+<!-- header top nav -->
+{{include file="public/header_top_nav" /}}
+
+<!-- search -->
+{{include file="public/nav_search" /}}
+
+<!-- header nav -->
+{{include file="public/header_nav" /}}
+
+
+<!-- banner -->
+{{include file="public/home_banner" /}}
+
+<!-- goods category -->
+{{include file="public/goods_category" /}}
+
+<!--<link rel="stylesheet" type="text/css" href="http://www.jq22.com/jquery/bootstrap-3.3.4.css">-->
+<!--<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">-->
+<!--<link href="/static/index/default/css/star-rating.css" media="all" rel="stylesheet" type="text/css"/>-->
+<!--&lt;!&ndash;suppress JSUnresolvedLibraryURL &ndash;&gt;-->
+<!--<script src="http://www.jq22.com/jquery/jquery-1.10.2.js"></script>-->
+<!--<script src="/static/index/default/js/star-rating.js" type="text/javascript"></script>-->
+
+
+
+<!-- 轮播上内容 -->
+<div class="am-container slideall">
+    <!-- 轮播-手机导航 -->
+    {{if !empty($navigation)}}
+        <div class="am-g am-g-fixed small-nav">
+            {{foreach $navigation as $nav}}
+                <div class="am-u-sm-3">
+                    <a {{if $nav['is_need_login'] eq 1 and empty($user)}} href="javascript:;" class="login-event" {{else /}} href="{{$nav.event_value}}" {{/if}} >
+                        <div class="nav-icon" style="{{if !empty($nav['bg_color'])}}background:{{$nav.bg_color}};{{/if}}">
+                            <img src="{{$nav.images_url}}" alt="{{$nav.name}}" />
+                        </div>
+                        <div class="mini-nav-title">{{$nav.name}}</div>
+                    </a>
+                </div>
+            {{/foreach}}
+        </div>
+    {{/if}}
+
+    <!-- 轮播-聚合内容 -->
+    <div class="banner-mixed">
+        <div class="mod-vip">
+            <div class="m-baseinfo">
+                <a href="{{if !empty($user)}}{{:MyUrl('index/user/index')}}{{else /}}javascript:;{{/if}}" target="_blank">
+                    <img src="{{if !empty($user['avatar'])}}{{$user.avatar}}{{else /}}{{$attachment_host}}/static/{{$module_name}}/{{$default_theme}}/images/default-user-avatar.jpg{{/if}}" class="user-avatar" />
+                </a>
+                <em>
+                    <span class="s-name am-text-truncate">
+                        {{if !empty($user)}}
+                            <em>Hi,</em>
+                            {{if !empty($user['icon'])}}
+                                <img src="{{$user.icon}}" class="common-user-icon" {{if !empty($user['icon_title'])}}title="{{$user.icon_title}}"{{/if}} />
+                            {{/if}}
+                            <em>{{$user.user_name_view}}</em>
+                        {{else /}}
+                            <em>您好，欢迎来到</em>
+                            <em>{{:MyC('home_site_name')}}</em>
+                        {{/if}}
+                    </span>
+                </em>
+                {{if !empty($user)}}
+                    <a href="{{:MyUrl('index/user/logout')}}" class="member-logout">退出</a>
+                {{/if}}
+            </div>
+            {{if empty($user) and (MyC('home_user_login_state') eq 1 or in_array('sms', MyC('home_user_reg_state')) or in_array('email', MyC('home_user_reg_state')))}}
+                <div class="member-login">
+                    {{if MyC('home_user_login_state') eq 1}}
+                        <a class="am-btn-primary btn am-fl" href="{{:MyUrl('index/user/loginInfo')}}">登录</a>
+                    {{/if}}
+                    {{if in_array('sms', MyC('home_user_reg_state')) or in_array('email', MyC('home_user_reg_state')) or in_array('username', MyC('home_user_reg_state'))}}
+                        <a class="am-btn-primary btn am-fr" href="{{:MyUrl('index/user/regInfo')}}">注册</a>
+                    {{/if}}
+                </div>
+            {{/if}}
+            {{if !empty($user)}}
+                <div class="member-center">
+                    {{if !empty($user_order_status)}}
+                        {{foreach $user_order_status as $v}}
+                            {{if in_array($v['status'], [1,2,3])}}
+                                <a href="{{:MyUrl('index/order/index', ['is_more'=>1, 'status'=>$v['status']])}}" target="_blank"><strong>{{$v.count}}</strong>{{$v.name}}</a>
+                            {{elseif in_array($v['status'], [100]) /}}
+                                <a href="{{:MyUrl('index/order/index', ['is_more'=>1, 'is_comments'=>0, 'status'=>4])}}" target="_blank"><strong>{{$v.count}}</strong>{{$v.name}}</a>
+                            {{/if}}
+                        {{/foreach}}
+                    {{/if}}
+                </div>
+            {{/if}}
+        </div>
+        {{if !empty($article_list)}}
+            <div class="banner-news">
+                <p class="banner-news-title">新闻头条</p>
+                <ul>
+                    {{foreach $article_list as $article}}
+                        <li>
+                            <a href="{{$article.url}}" target="_blank">
+                                {{if isset($article['article_category_name'])}}
+                                    <span>[{{$article.article_category_name}}]</span>
+                                {{/if}}
+                                <span {{if !empty($article.title_color)}}style="color:{{$article.title_color}};"{{/if}} >{{$article.title}}</span>
+                            </a>
+                        </li>
+                    {{/foreach}}
+                </ul>
+            </div>
+        {{/if}}
+
+        <!-- 轮播混合数据底部钩子 -->
+        {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
+            <div class="plugins-tag">
+                <span>plugins_view_home_banner_mixed_bottom</span>
+            </div>
+        {{/if}}
+        {{if !empty($plugins_view_home_banner_mixed_bottom_data) and is_array($plugins_view_home_banner_mixed_bottom_data)}}
+            {{foreach $plugins_view_home_banner_mixed_bottom_data as $hook}}
+                {{if is_string($hook) or is_int($hook)}}
+                    {{$hook|raw}}
+                {{/if}}
+            {{/foreach}}
+        {{/if}}
+    </div>
+</div>
+
+<!-- 楼层数据顶部钩子 -->
+{{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
+    <div class="plugins-tag">
+        <span>plugins_view_home_floor_top</span>
+    </div>
+{{/if}}
+{{if !empty($plugins_view_home_floor_top_data) and is_array($plugins_view_home_floor_top_data)}}
+    {{foreach $plugins_view_home_floor_top_data as $hook}}
+        {{if is_string($hook) or is_int($hook)}}
+            {{$hook|raw}}
+        {{/if}}
+    {{/foreach}}
+{{/if}}
+
+<!-- 楼层-主内容 -->
+<div class="home-floor">
+    {{if !empty($goods_floor_list)}}
+        {{foreach $goods_floor_list as $key=>$floor}}
+
+            <div id="floor{{$key+1}}">
+                <div class="am-container">
+                    <div class="items-nav-title" {{if !empty($floor['bg_color'])}}style="border-bottom: 2px solid {{$floor.bg_color}};"{{/if}}>
+                        <p class="floor-title">{{$floor.name}}</p>
+                        <p class="floor-desc">{{$floor.vice_name}}</p>
+                        <!--<div class="today-brands ">-->
+                            <!--{{if !empty($floor['items'])}}-->
+                                <!--{{foreach $floor.items as $key=>$category}}-->
+                                    <!--{{if !empty($category['items'])}}-->
+                                        <!--{{foreach $category.items as $keys=>$categorys}}-->
+                                            <!--{{if $key lt 6 and $keys eq 0}}-->
+                                                <!--<a href="{{:MyUrl('index/search/index', ['category_id'=>$categorys['id']])}}" target="_blank">{{$categorys.name}}</a>-->
+                                            <!--{{/if}}-->
+                                        <!--{{/foreach}}-->
+                                    <!--{{/if}}-->
+                                <!--{{/foreach}}-->
+                            <!--{{/if}}-->
+                        <!--</div>-->
+                        <span class="more">
+                            <a href="{{:MyUrl('index/search/index', ['category_id'=>$floor['id']])}}" target="_blank">更多 <i class="am-icon-angle-right"></i></a>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="am-g am-g-fixed floor">
+                    <!-- 首页楼层内部顶部钩子 -->
+                    {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
+                        <div class="plugins-tag">
+                            <span>plugins_view_home_floor_inside_top</span>
+                        </div>
+                    {{/if}}
+                    {{php}}
+                        $hook_name = 'plugins_view_home_floor_inside_top';
+                        $hook_data = Hook::listen($hook_name, ['hook_name'=>$hook_name, 'is_backend'=>false, 'floor_id'=>$key+1, 'floor'=>$floor]);
+                        if(!empty($hook_data) && is_array($hook_data))
+                        {
+                            foreach($hook_data as $hook)
+                            {
+                                if(is_string($hook) || is_int($hook))
+                                {
+                                    echo htmlspecialchars_decode($hook);
+                                }
+                            }
+                        }
+                    {{/php}}
+
+                    <div class="goods-list">
+                        {{if !empty($floor['goods'])}}
+                        {{foreach $floor.goods as $goods_key=>$goods}}
+                           <div class="goods-items" onclick="location.href= '{{$goods.goods_url}}'">
+                            <a href="http://win.shopxo.com/public/index.php?s=/index/goods/index/id/18.html" class="am-block am-text-center">
+                                <!-- 首页楼层商品内部顶部钩子 -->
+                            </a>
+
+                                <div style="display: none;" class="goods_item_left">
+                                    <div class="bubble_big">
+                                        <div class="bubble_small">
+                                            <span>
+                                                {{$goods.goods_reliability}}星
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="goods_item_right">
+                                    <p class="goods_name">
+                                        {{:cut_html_str($goods['title'],15)}}
+                                    </p>
+
+                                    <p class="goods_desc">
+                                        {{if IsMobile()}}
+                                        {{:cut_html_str($goods['simple_desc'],40)}}
+                                              {{else/}}
+                                        {{:cut_html_str($goods['simple_desc'],80)}}
+                                        {{/if}}
+                                    </p>
+
+                                    <p class="goods_other">
+                                        <span class="goods_other_left">
+                                            <span style="color: red">序列号</span>：<span>20040{{$goods.id}}</span>
+                                        </span>
+
+                                        <span  class="goods_other_right">
+                                            <span style="color: red">担保方</span>
+                                            <span>
+                                            ：
+                                              {{if $goods.assureStyles}}
+                                                {{foreach $goods.assureStyles as $k=>$v}}
+                                                          {{$v.assure_style_name}}
+                                                            {{if end($goods['assureStyles']) neq $v}}
+                                                            |
+                                                          {{/if}}
+                                                {{/foreach}}
+                                                {{else/}}
+                                                  不受担保
+                                                {{/if}}
+                                            </span>
+                                        </span>
+                                        <div style="clear: both"></div>
+                                    </p>
+
+
+
+
+                                    <p class="goods_other">
+                                        <span {{if IsMobile()}}style="display:block;width:100%"{{/if}}  class="goods_other_left">
+                                           <span style="color: red">分类</span>：<span>{{$goods.cates_router}}</span>
+                                        </span>
+
+
+                                        <span class="goods_other_right">
+                                                <span style="color: red">保证金</span>
+                                                <span>：{{$goods['deposit']|default='0.00'}}  </span>
+                                        </span>
+
+
+                                         <div style="clear: both"></div>
+                                    </p>
+
+                                    {{if $floor['id'] eq 1}}
+                                        <p class="goods_other">
+                                            <span class="goods_other_left">
+
+                                                <span style="color: red">24小时</span>：
+                                                  <span>
+                                                        {{if $goods['is_one_day']  eq 1}}
+                                                           <button class="goods_type need" title="" href="javascript:;" type="button">是</button>
+                                                           {{else/}}
+                                                           <button class="goods_type provider" title="" href="javascript:;" type="button">否</button>
+                                                        {{/if}}
+                                                </span>
+                                            </span>
+
+                                            <span class="goods_other_right">
+                                                    <span style="color: red">单笔限额</span>
+                                                     <span>：{{$goods['limit_moneys']}} </span>
+                                            </span>
+                                        <div style="clear: both"></div>
+                                        </p>
+                                    {{/if}}
+
+                                    <p class="goods_other">
+                                        <span class="goods_other_left">
+                                            <span style="color: red">发布者</span>：<span>{{:getPublishName($goods['uid'])}}</span>
+                                        </span>
+                                        <span class="goods_other_right">
+                                            <span style="color: red">发布时间</span>
+                                            ：<span>{{:date('Y年m月d号 H时',strtotime($goods['add_time']))}}</span>
+                                        </span>
+                                    <div style="clear: both"></div>
+                                    </p>
+                                    {{if $floor['id'] eq 1}}
+                                    <p class="goods_other">
+
+
+                                        <span  class="goods_other_left">
+				                           <span style="color: red">费率</span>
+				                           <span>：{{$goods['goods_rate']}}%  </span>
+		                            	</span>
+
+
+                                        <span  class="goods_other_right">
+				                           <span style="color: red">日量</span>
+				                           <span>：{{$goods['day_order_count']}}  </span>
+		                            	</span>
+
+                                    <div style="clear: both"></div>
+                                    </p>
+                                    {{/if}}
+
+                                    <p class="goods_handle">
+
+                                        <span class="star_btn">
+                                            <button class="star" title="信誉度" href="javascript:;" type="button">
+                                                信誉度 {{:str_repeat('☆',$goods['goods_reliability'])}}
+                                            </button>
+                                             {{if $goods['goods_type']  eq 1}}
+                                                   <button class="goods_type need" title="" href="javascript:;" type="button">需求</button>
+                                             {{else/}}
+                                                    <button class="goods_type provider" title="" href="javascript:;" type="button">供应</button>
+                                             {{/if}}
+                                        </span>
+                                    </p>
+                                </div>
+                                <div style="clear: both"> </div>
+
+                            <!-- 首页楼层商品内部底部钩子 -->
+                        </div>
+                        {{/foreach}}
+                        {{/if}}
+
+
+
+                    </div>
+
+                    <!-- 首页楼层内部底部钩子 -->
+                    {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
+                        <div class="plugins-tag">
+                            <span>plugins_view_home_floor_inside_bottom</span>
+                        </div>
+                    {{/if}}
+                    {{php}}
+                        $hook_name = 'plugins_view_home_floor_inside_bottom';
+                        $hook_data = Hook::listen($hook_name, ['hook_name'=>$hook_name, 'is_backend'=>false, 'floor_id'=>$key+1, 'floor'=>$floor]);
+                        if(!empty($hook_data) && is_array($hook_data))
+                        {
+                            foreach($hook_data as $hook)
+                            {
+                                if(is_string($hook) || is_int($hook))
+                                {
+                                    echo htmlspecialchars_decode($hook);
+                                }
+                            }
+                        }
+                    {{/php}}
+                </div>
+            </div>
+        {{/foreach}}
+    {{/if}}
+</div>
+
+<!-- 楼层数据底部钩子 -->
+{{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
+    <div class="plugins-tag">
+        <span>plugins_view_home_floor_bottom</span>
+    </div>
+{{/if}}
+{{if !empty($plugins_view_home_floor_bottom_data) and is_array($plugins_view_home_floor_bottom_data)}}
+    {{foreach $plugins_view_home_floor_bottom_data as $hook}}
+        {{if is_string($hook) or is_int($hook)}}
+            {{$hook|raw}}
+        {{/if}}
+    {{/foreach}}
+{{/if}}
+
+{{include file="public/footer" /}}
+
+
+

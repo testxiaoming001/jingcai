@@ -1,0 +1,69 @@
+{{include file="public/header" /}}
+
+<!-- right content start  -->
+<div class="content-right">
+    <div class="content">
+        <!-- form start -->
+        <form class="am-form form-validation view-save" action="{{:MyUrl('admin/exposure/save')}}" method="POST" request-type="ajax-url" request-value="{{:MyUrl('admin/exposure/index', $params)}}">
+            <legend>
+                <span class="am-text-default">曝光{{if empty($data['id'])}}添加{{else /}}编辑{{/if}}</span>
+                <a href="{{:MyUrl('admin/exposure/index', $params)}}" class="am-fr am-text-sm am-margin-top-xs am-icon-mail-reply"> 返回</a>
+            </legend>
+
+            <div class="am-form-group">
+                <label>名称<span class="am-form-group-label-tips-must">必填</span></label>
+                <input type="text" name="exposure_name" placeholder="名称" minlength="2" maxlength="16" data-validation-message="名称格式 2~16 个字符之间" class="am-radius" {{if !empty($data)}} value="{{$data.exposure_name}}"{{/if}} required />
+            </div>
+            <div class="am-form-group">
+                <label>网关<span class="am-form-group-label-tips-must">必填</span></label>
+                <input type="text" name="exposure_gateway" placeholder="网关" minlength="0" maxlength="60" data-validation-message="网关格式最多 60 个字符" class="am-radius" {{if !empty($data)}} value="{{$data.exposure_gateway}}"{{/if}} />
+            </div>
+            <div class="am-form-group">
+                <label>信誉积分<span class="am-form-group-label-tips-must">必填</span></label>
+                <input type="number" name="integral" placeholder="信誉积分" minlength="0" maxlength="16" data-validation-message="请输入有效信誉积分数值" class="am-radius" {{if !empty($data)}} value="{{$data.integral}}"{{/if}} />
+            </div>
+
+
+            <div class="am-form-group">
+                <label>被投诉者id<span class="am-form-group-label-tips-must">必填</span></label>
+                <input type="number" name="tg_uid" placeholder="被投诉者id" minlength="0" maxlength="16" data-validation-message="请输入被投诉者id" class="am-radius" {{if !empty($data)}} value="{{$data.tg_uid}}"{{/if}} />
+            </div>
+            <div class="am-form-group">
+                <label>被投诉者账号<span class="am-form-group-label-tips-must">必填</span></label>
+                <input type="text" name="tg_user" placeholder="被投诉者账号" minlength="0" maxlength="60" data-validation-message="被投诉者账号格式最多 60 个字符" class="am-radius" {{if !empty($data)}} value="{{$data.tg_user}}"{{/if}} />
+            </div>
+            <div class="am-form-group">
+                <label>投诉者id<span class="am-form-group-label-tips-must">必填</span></label>
+                <input type="number" name="complaint_uid" placeholder="投诉者id" minlength="0" maxlength="16" data-validation-message="请输入有效投诉者id" class="am-radius" {{if !empty($data)}} value="{{$data.complaint_uid}}"{{/if}} />
+            </div>
+            <div class="am-form-group">
+                <label>投诉者账号<span class="am-form-group-label-tips-must">必填</span></label>
+                <input type="text" name="complaint_username" placeholder="投诉者账号" minlength="0" maxlength="60" data-validation-message="投诉者账号格式最多 60 个字符" class="am-radius" {{if !empty($data)}} value="{{$data.complaint_username}}"{{/if}} />
+            </div>
+
+
+            <div class="am-form-group">
+                <label>投诉原因</label>
+
+                <select name="check_status" class="am-radius chosen-select am-margin-top-xs"  data-placeholder="可选择..." data-validation-message="请选择投诉原因">
+
+                    {{foreach :lang('common_exposure_reason_list') as $k => $v}}
+                    <option value="{{$v.value}}" {{if isset($data['complaint_reason']) and ($data['complaint_reason'] eq $v['value']) }}selected{{/if}}>{{$v.name}}</option>
+                    {{/foreach}}
+                </select>
+            </div>
+
+            <div class="am-form-group am-form-group-refreshing">
+                <input type="hidden" name="id" {{if !empty($data)}} value="{{$data.id}}"{{/if}} />
+                <button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm am-btn-block" data-am-loading="{loadingText:'处理中...'}">保存</button>
+            </div>
+        </form>
+        <!-- form end -->
+    </div>
+</div>
+<!-- right content end  -->
+
+<!-- footer start -->
+{{include file="public/footer" /}}
+<!-- footer end -->
+

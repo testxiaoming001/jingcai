@@ -1,0 +1,61 @@
+{{include file="public/header" /}}
+
+<!-- header top nav -->
+{{include file="public/header_top_nav" /}}
+
+<!-- search -->
+{{include file="public/nav_search" /}}
+
+<!-- header nav -->
+{{include file="public/header_nav" /}}
+
+<!-- goods category -->
+{{include file="public/goods_category" /}}
+
+<!-- content -->
+<div class="am-container user-main">
+
+	<!-- user menu start -->
+	{{include file="public/user_menu" /}}
+	<!-- user menu end -->
+
+	<!-- content start -->
+	<div class="user-content">
+		<div class="user-content-body">
+			<!-- form start -->
+			<form class="am-form form-validation view-save" action="{{:MyUrl('index/tg/doComplaint')}}" method="POST" request-type="ajax-url" request-value="{{:MyUrl('index/tg/doComplaint')}}">
+
+				<div class="am-form-group">
+					<label>TG用户名<span class="am-form-group-label-tips-must">必填</span></label>
+					<input type="text" name="tg_username" class="am-radius" id="tg_username" placeholder="请输入TG用户名" data-validation-message="请输入TG用户名" required />
+				</div>
+
+				<div class="am-form-group">
+					<label>信誉分</label>
+					<input type="text" name="score" class="am-radius" id="score" placeholder="请输入TG用户信誉分【0-100】"  required />
+				</div>
+
+				<div class="am-form-group">
+					<label>投诉原因<span class="am-form-group-label-tips-must">必填</span></label>
+					<textarea class="am-radius am-validate" name="reason" rows="5" minlength="5" maxlength="1000" placeholder="内容至少5个字" data-validation-message="内容格式 5~1000 个字符之间" required></textarea>
+				</div>
+
+				<div id="goods-nav-web" class="division-block">
+					<label class="block nav-detail-title">聊天凭证</label>
+					<div class="am-form-group">
+						<textarea class="am-radius am-validate" name="talk_logs" maxlength="105000" id="editor-tag" data-validation-message="供需详情内容最多 105000 个字符">{{if !empty($data)}}{{$data.content_web}}{{/if}}</textarea>
+					</div>
+				</div>
+				<div class="am-form-group am-form-group-refreshing">
+					<button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm am-btn-block" data-am-loading="{loadingText:'处理中...'}">确认</button>
+				</div>
+			</form>
+			<!-- form end -->
+		</div>
+	</div>
+	<!-- content end -->
+</div>
+
+<!-- footer start -->
+{{include file="public/footer" /}}
+<!-- footer end -->

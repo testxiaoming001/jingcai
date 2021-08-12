@@ -1,0 +1,12 @@
+<!-- 继承公共的 form -->
+{{extend name="public/module/user_form" /}}
+
+<!-- 顶部导航内容 -->
+{{block name="form_navigation"}}
+    <div class="am-alert am-alert-secondary" data-am-alert>
+
+        <div class="control">
+            <button class="am-btn am-btn-primary am-btn-xs am-icon-plus address-submit-save" type="button" data-url="{{:MyUrl('index/useraddress/saveinfo')}}" data-popup-title="充值"> 充值</button>
+        </div>
+    </div>
+{{/block}}

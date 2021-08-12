@@ -1,0 +1,10 @@
+<!-- 继承公共的 form -->
+{{extend name="public/module/user_form" /}}
+
+<!-- 表单顶部操作栏 -->
+{{block name="form_operate_top"}}
+<!-- 父级内容 -->
+<a class="am-btn am-btn-primary am-btn-xs am-icon-plus " href="{{:MyUrl('index/goods/publish')}}"> 我要发布</a>
+
+{__block__}
+{{/block}}

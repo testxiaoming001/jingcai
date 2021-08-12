@@ -1,0 +1,97 @@
+<!-- 搜索框 start -->
+<div class="nav-search white am-hide-sm-only">
+    <div class="am-container">
+        <div class="logo am-show-sm-only">
+            <a href="{{$Think.__MY_URL__}}">
+                <img src="{{:AttachmentPathViewHandle(MyC('home_site_logo_wap'))}}" alt="{{:MyC('home_seo_site_title')}}" />
+            </a>
+        </div>
+        <div class="logo-big am-hide-sm-only">
+            <a href="{{$Think.__MY_URL__}}">
+                <img src="{{:AttachmentPathViewHandle(MyC('home_site_logo'))}}" alt="{{:MyC('home_seo_site_title')}}" />
+            </a>
+        </div>
+
+        <div class="search-bar">
+            <form action="{{:MyUrl('index/search/index')}}" method="POST">
+                <div class="search-group">
+                    <style>
+                        .search {
+                            vertical-align: middle;
+                            margin-right: 10px;
+                            cursor:pointer;
+                            margin-left: 16px;
+                        }
+                        .search .arrow {
+                            border-color: #999 transparent transparent;
+                            border-style: solid solid solid;
+                            border-width: 4px 4px 0;
+                            font-size: 0;
+                            height: 0;
+                            width: 0;
+                            line-height: 0;
+                            top: 50%;
+                            margin-top: -2.5px;
+                            display: inline;
+                            -webkit-transition: .2s ease-in;
+                            -moz-transition: .2s ease-in;
+                            -o-transition: .2s ease-in;
+                            transition: .2s ease-in;
+                            position: absolute;
+                        }
+                        .searchlist {
+                            overflow: hidden;
+                            /*display: none;*/
+                            background: #fafafa;
+                            top: 32px;
+                            left: -2px;
+                            width: 18%;
+                            position: absolute;
+                            z-index: 9;
+                            margin-right: 5px;
+                        }
+                        .searchlist li{
+                            background: #f0f0f0;
+                            color: #7a7a7a;
+                            text-align: center;
+                        }
+                        .searchlist li.cur {
+                            background: #f0f0f0;
+                            color: red;;
+                        }
+                    </style>
+                    <span class="searchtype search">
+                        <cite>
+                           {{if !empty($params['goods_type']) and  $params['goods_type'] == '1'  }}
+                                找需求
+                              {{else/}}
+                                找卖家
+                            {{/if}}
+                        </cite>
+                         <em class="arrow"></em>
+                        <ul style="display: none" class="searchlist">
+                            <li search_type="1">找需求</li>
+                            <li search_type="2">找卖家</li>
+                        </ul>
+				    </span>
+                         {{if !empty($params['goods_type']) and  $params['goods_type'] == '1'  }}
+                               <input type="hidden"  name="goods_type"   value="1"   >
+                         {{else/}}
+                               <input type="hidden"  name="goods_type"   value="2"   >
+                         {{/if}}
+                    <input id="search-input" name="wd" type="text" placeholder="其实搜索很简单^_^ !" value="{{if !empty($params['wd'])}}{{$params.wd}}{{/if}}" autocomplete="off" />
+                    <input id="ai-topsearch" class="submit am-btn" index="1" type="submit" value="搜索" />
+                </div>
+                {{if !empty($home_search_keywords)}}
+                    <ul class="search-hot-keywords">
+                        {{foreach $home_search_keywords as $v}}
+                            <li><a href="{{:MyUrl('index/search/index', ['wd'=>StrToAscii($v)])}}" target="_blank">{{$v}}</a></li>
+                        {{/foreach}}
+                    </ul>
+                {{/if}}
+            </form>
+        </div>
+    </div>
+</div>
+<!-- 搜索框 end -->
+

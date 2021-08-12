@@ -1,0 +1,152 @@
+{{include file="public/header" /}}
+
+<!-- right content start  -->
+<div class="content-right">
+    <div class="content">
+        <legend>
+            <span class="fs-16">钱包</span>
+            <a href="{{:MyUrl('admin/pluginsadmin/index')}}" class="fr fs-14 m-t-5 am-icon-mail-reply"> 返回</a>
+        </legend>
+
+        <div class="wallet-content">
+            <!-- tips -->
+            <div class="am-alert am-alert-warning" data-am-alert>
+                <button type="button" class="am-close">&times;</button>
+                <p>1. 用户注册默认添加用户钱包、或者用户访问钱包页面也会自动添加用户钱包</p>
+                <p>2. 提现申请，需要绑定手机或者邮箱，用于提现验证</p>
+                <p>3. 处理提现，需自行按照用户填写的提现信息打款、然后操作打款状态以及备注</p>
+            </div>
+
+            <!-- 基础数据 -->
+            <div class="am-panel am-panel-secondary wallet-content-base">
+                <div class="am-panel-hd">
+                    <span class="am-panel-title">基础数据</span>
+                    <a class="am-fr" href="{{:PluginsAdminUrl('wallet', 'admin', 'saveinfo')}}">编辑</a>
+                </div>
+                <div class="am-panel-bd">
+                    <ul data-am-widget="gallery" class="am-gallery am-avg-sm-2 am-avg-md-4 am-avg-lg-4 am-gallery-default" data-am-gallery="{ pureview: true }" >
+                        <li>
+                            <div class="items">
+                                <label>开启充值</label>
+                                <div>
+                                    {{if !isset($data['is_enable_recharge']) or $data['is_enable_recharge'] eq 1}}
+                                        是
+                                    {{else /}}
+                                        否
+                                    {{/if}}
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="items">
+                                <label>充值赠送</label>
+                                <div>
+                                    {{if isset($data['recharge_give_type']) and isset($data['recharge_give_value']) and $data['recharge_give_value'] gt 0}}
+                                        {{if $data['recharge_give_type'] eq 0}}
+                                            固定金额（{{$data.recharge_give_value}}元）
+                                        {{elseif $data['recharge_give_type'] eq 1 /}}
+                                            比例（{{$data.recharge_give_value}}%）
+                                        {{/if}}
+                                    {{else /}}
+                                        不赠送
+                                    {{/if}}
+                                </div>
+                            </div>
+                        </li>
+                        
+                        <li>
+                            <div class="items">
+                                <label>开启提现申请</label>
+                                <div>
+                                    {{if !isset($data['is_enable_cash']) or $data['is_enable_cash'] eq 1}}
+                                        是
+                                    {{else /}}
+                                        否
+                                    {{/if}}
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="items">
+                                <label>提现保留赠送金额</label>
+                                <div>
+                                    {{if !isset($data['is_cash_retain_give']) or $data['is_cash_retain_give'] eq 1}}
+                                        是
+                                    {{else /}}
+                                        否
+                                    {{/if}}
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="items">
+                                <label>提现申请时间限制</label>
+                                <div>
+                                    {{if empty($data['cash_time_limit'])}}
+                                        30
+                                    {{else /}}
+                                        {{$data.cash_time_limit}}
+                                    {{/if}}
+                                    分钟
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="items am-padding-sm">
+                                <label>用户中心公告</label>
+                                <div class="am-scrollable-vertical">
+                                    {{if !empty($data['user_center_notice'])}}
+                                        {{:implode('<br />', $data['user_center_notice'])}}
+                                    {{else /}}
+                                        未设置，默认不展示
+                                    {{/if}}
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- 统计面板/管理 -->
+            <div class="am-panel am-panel-secondary wallet-content-module">
+                <div class="am-panel-hd">
+                    <span class="am-panel-title">管理</span>
+                </div>
+                <div class="am-panel-bd">
+                    <ul data-am-widget="gallery" class="am-gallery am-avg-sm-1 am-avg-md-2 am-avg-lg-2 am-gallery-default" data-am-gallery="{ pureview: true }" >
+                        {{if !empty($statistical)}}
+                            {{foreach $statistical as $v}}
+                                <li class="module-wallet">
+                                    <div class="module-items">
+                                        <p class="title">{{$v.title}}</p>
+                                        <p class="total animation-count-to" data-to="{{$v.count}}" data-speed="1500">{{$v.count}}</p>
+                                        <div class="small">
+                                            <span>昨日</span>
+                                            <span class="animation-count-to" data-to="{{$v.yesterday_count}}" data-speed="1500">{{$v.yesterday_count}}</span>
+                                        </div>
+                                        <div class="small">
+                                            <span>今日</span>
+                                            <span class="animation-count-to" data-to="{{$v.today_count}}" data-speed="1500">{{$v.today_count}}</span>
+                                        </div>
+                                        {{if isset($v['right_count']) and isset($v['right_title'])}}
+                                            <div class="top-right">
+                                                <span>{{$v.right_title}}</span>
+                                                <span class="animation-count-to" data-to="{{$v.right_count}}" data-speed="1500">{{$v.right_count}}</span>
+                                            </div>
+                                        {{/if}}
+                                        <a href="{{$v.url}}" class="view-to">管理 <i class="am-icon-angle-double-right"></i></a>
+                                    </div>
+                                </li>
+                            {{/foreach}}
+                        {{/if}}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- right content end  -->
+        
+<!-- footer start -->
+{{include file="public/footer" /}}
+<!-- footer end -->

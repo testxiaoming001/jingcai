@@ -1,0 +1,23 @@
+{{include file="public/header" /}}
+
+<!-- right content start  -->
+<div class="content-right">
+    <div class="content">
+        <!-- form start -->
+        <form class="am-form form-validation view-save" action="{{:MyUrl('admin/Tgbot/sendMessage')}}" method="POST" request-type="ajax-url" request-value="{{:MyUrl('admin/seo/index')}}">
+            <div class="am-form-group">
+                <label>机器人广播<span class="am-form-group-label-tips"></span></label>
+                <textarea rows="6" name="message" class="am-radius" placeholder="请输入广播内容" data-validation-message="不能为空"></textarea>
+            </div>
+            <div class="am-form-group am-form-group-refreshing">
+                <button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm am-btn-block" data-am-loading="{loadingText:'处理中...'}">发送</button>
+            </div>
+        </form>
+        <!-- form end -->
+    </div>
+</div>
+<!-- right content end  -->
+
+<!-- footer start -->
+{{include file="public/footer" /}}
+<!-- footer end -->

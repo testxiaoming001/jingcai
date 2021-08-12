@@ -1,0 +1,153 @@
+<link rel="stylesheet" href="/public/static/index/default/css/index.css?v=20200202">
+
+<div class="am-g am-g-fixed floor">
+    <!-- 首页楼层内部顶部钩子 -->
+
+    <div class="goods-list">
+        {{if !empty($data)}}
+        {{foreach $data as $v}}
+        <div class="goods-items" onclick="location.href= '{{$v.goods_url}}'">
+            <a href="http://win.shopxo.com/public/index.php?s=/index/goods/index/id/18.html" class="am-block am-text-center">
+                <!-- 首页楼层商品内部顶部钩子 -->
+            </a>
+
+            <div style="display: none;" class="goods_item_left">
+                <div class="bubble_big">
+                    <div class="bubble_small">
+                                            <span>
+                                                {{$v.goods_reliability}}星
+                                            </span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="goods_item_right">
+                <p class="goods_name">
+                    {{:cut_html_str($v['title'],15)}}
+                </p>
+
+                <p class="goods_desc">
+                    {{if IsMobile()}}
+                    {{:cut_html_str($v['simple_desc'],40)}}
+                    {{else/}}
+                    {{:cut_html_str($v['simple_desc'],80)}}
+                    {{/if}}
+                </p>
+
+                <p class="goods_other">
+                                        <span class="goods_other_left">
+                                            <span style="color: red">序列号</span>：<span>20040{{$v.id}}</span>
+                                        </span>
+
+                    <span  class="goods_other_right">
+                                            <span style="color: red">担保方</span>
+                                            <span>
+                                             ：
+                                                {{if $v.assureStyles}}
+                                                    {{foreach $v.assureStyles as $k1=>$v1}}
+                                                          {{$v1.assure_style_name}}
+                                                            {{if end($v['assureStyles']) neq $v1}}:
+                                                              |
+                                                          {{/if}}
+                                                {{/foreach}}
+                                                {{else/}}
+                                                  不受担保
+                                                {{/if}}
+                                            </span>
+                                        </span>
+                <div style="clear: both"></div>
+                </p>
+
+
+
+
+                <p class="goods_other">
+                    <span {{if IsMobile()}}style="display:block;width:100%"{{/if}}  class="goods_other_left">
+                    <span style="color: red">分类</span>：<span>{{$v.cates_router}}</span>
+                    </span>
+
+
+                    <span class="goods_other_right">
+                                                <span style="color: red">保证金</span>
+                                                <span>：{{$v['deposit']|default='0.00'}}  </span>
+                                        </span>
+
+
+                <div style="clear: both"></div>
+                </p>
+
+                {{if input('category_id',0) eq 1}}
+                <p class="goods_other">
+                                            <span class="goods_other_left">
+
+                                                <span style="color: red">24小时</span>：
+                                                  <span>
+                                                        {{if $v['is_one_day']  eq 1}}
+                                                           <button class="goods_type need" title="" href="javascript:;" type="button">是</button>
+                                                           {{else/}}
+                                                           <button class="goods_type provider" title="" href="javascript:;" type="button">否</button>
+                                                        {{/if}}
+                                                </span>
+                                            </span>
+
+                    <span class="goods_other_right">
+                                                    <span style="color: red">单笔限额</span>
+                                                     <span>：{{$v['limit_moneys']}} </span>
+                                            </span>
+                <div style="clear: both"></div>
+                </p>
+                {{/if}}
+
+                <p class="goods_other">
+                                        <span class="goods_other_left">
+                                            <span style="color: red">发布者</span>：<span>{{:getPublishName($v['uid'])}}</span>
+                                        </span>
+                    <span class="goods_other_right">
+                                            <span style="color: red">发布时间</span>
+                                            ：<span>{{:date('Y年m月d号 H时',strtotime($v['add_time']))}}</span>
+                                        </span>
+                <div style="clear: both"></div>
+                </p>
+                {{if input('category_id',0) eq 1}}
+                <p class="goods_other">
+
+
+                    <span  class="goods_other_left">
+				                           <span style="color: red">费率</span>
+				                           <span>：{{$v['goods_rate']}}%  </span>
+		                            	</span>
+
+                    <span  class="goods_other_right">
+				                           <span style="color: red">日量</span>
+				                           <span>：{{$v['day_order_count']}}  </span>
+		                            	</span>
+
+                <div style="clear: both"></div>
+                </p>
+                {{/if}}
+
+                <p class="goods_handle">
+                    <span class="star_btn">
+                                            <button class="star" title="信誉度" href="javascript:;" type="button">
+                                                信誉度 {{:str_repeat('☆',$v['goods_reliability'])}}
+                                            </button>
+                                             {{if $v['goods_type']  eq 1}}
+                                                   <button class="goods_type need" title="" href="javascript:;" type="button">需求</button>
+                                             {{else/}}
+                                                    <button class="goods_type provider" title="" href="javascript:;" type="button">供应</button>
+                                             {{/if}}
+                                        </span>
+                </p>
+            </div>
+            <div style="clear: both"> </div>
+
+            <!-- 首页楼层商品内部底部钩子 -->
+        </div>
+        {{/foreach}}
+        {{/if}}
+    </div>
+
+    <!-- 首页楼层内部底部钩子 -->
+</div>
+
+

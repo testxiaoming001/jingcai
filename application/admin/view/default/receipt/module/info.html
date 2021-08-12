@@ -1,0 +1,4 @@
+<!-- 标题信息 -->
+{{if !empty($module_data)}}
+    <a href="{{:MyUrl('index/receipt/index', ['receipt_id'=>$module_data['receipt_id']])}}" target="_blank" title="{{$module_data.receipt_name}}" {{if !empty($module_data['title_color'])}}style="color:{{$module_data.title_color}};"{{/if}}>{{$module_data.receipt_name}}</a>
+{{/if}}

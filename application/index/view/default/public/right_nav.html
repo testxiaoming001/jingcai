@@ -1,0 +1,87 @@
+<style>
+    /**** 右侧边栏 ****/
+    .right-side-menu {
+        position: fixed;
+        right: 0;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 60px;
+        z-index: 99;
+        background: #2A7EFB
+    }
+    .right-side-menu .right-side-box {
+        display: inline-block;
+        text-align: center;
+        width: 60px;
+        height: 60px;
+        color: #FFFFFF;
+        border-bottom: 1px solid #256BD2;
+        cursor: pointer;
+        position: relative;
+        padding-top: 8px;
+    }
+
+    .right-side-menu .right-side-box > .img-box {
+        height: 44px;
+        padding-top: 7px;
+    }
+    .right-side-menu .right-side-box:last-child {
+        border-bottom: none;
+    }
+    .right-side-menu .right-side-box:hover {
+        text-decoration: none;
+    }
+    .right-side-menu .right-side-box:hover .reight-side-hover {
+        display: inline-block;
+    }
+    .right-side-menu .right-side-box p {
+        width: 100%;
+        margin-bottom: 0 !important;
+        font-size: 12px;
+        line-height: 12px;
+        margin-top: 6px;
+        white-space: nowrap;
+    }
+    .right-side-menu .right-side-box .reight-side-hover {
+        display: none;
+        position: absolute;
+        top: 0;
+        right: 70px;
+        -moz-box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+        -webkit-box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+        box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+        color: #383838;
+        padding: 15px;
+        background-color: #FFFFFF;
+    }
+    .right-side-menu .right-side-box .reight-side-hover .qq-img {
+        border-bottom: 1px solid #E4E4E4;
+        margin-bottom: 12px;
+    }
+    .right-side-menu .right-side-box .reight-side-hover .qq-img img {
+        width: 140px;
+    }
+    .right-side-menu .right-side-box .reight-side-hover .qq-img p {
+        padding: 3px 0 12px;
+    }
+    .right-side-menu .right-side-box .reight-side-hover > p {
+        text-align: left;
+        line-height: 20px;
+    }
+    .right-side-menu .right-side-box .reight-side-hover > p span:first-child {
+        display: inline-block;
+        width: 60px;
+    }
+    .right-side-menu .right-side-box .reight-side-hover:after {
+        content: "";
+        width: 0px;
+        height: 0px;
+        border-top: 10px solid transparent;
+        border-bottom: 10px solid transparent;
+        border-left: 10px solid #FFFFFF;
+        position: absolute;
+        top: 24px;
+        right: -10px;
+    }
+</style>
+
